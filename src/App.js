@@ -69,7 +69,7 @@ function App(props) {
 
     return (
         <div className="App">
-            <input type={"file"} onChange={onChange}/>
+            <input type={"file"} accept="image/*" onChange={onChange}/>
             <canvas ref={canvas} height={size[0]} width={size[0]}/>
             <button onClick={onDownloadClick}>
                 Download
