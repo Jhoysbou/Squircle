@@ -1,6 +1,7 @@
 import React, {createRef, useEffect, useState} from 'react';
 import Service from "./service/Service";
-
+import s from './style/app.module.css';
+import CardFragment from "./fragments/CardFragment";
 
 function App(props) {
     const [img, setImg] = useState();
@@ -41,25 +42,38 @@ function App(props) {
 
 
     return (
-        <div className="App">
-            <input type={"file"}
-                   accept="image/*"
-                   onChange={onFileChange}/>
-            <input type={"range"}
-                   min={0}
-                   max={10}
-                   defaultValue={4}
-                   onChange={onSliderChange}
-                   step={0.1}/>
-            <canvas style={{display: "none"}}
-                    ref={canvas}
-                    height={500}
-                    width={500}/>
-            <button onClick={onDownloadClick}>
-                Download
-            </button>
+        <div className={s.app}>
+            <section className={s.preview}>
+                <div>This is your <span>squircle</span>!</div>
+                <canvas ref={extraCanvas} height={1000} width={1000}/>
+            </section>
+            <section className={s.controls}>
+                <CardFragment>
+                    <div>Choose a pic</div>
+                    <div>It is better to choose a bigger picture to save quality</div>
+                    <label className={s.file_input_label}>
+                        <input className={s.file_input} type={"file"}
+                               accept="image/*"
+                               onChange={onFileChange}/>
+                               <div>Upload photo</div>
+                    </label>
+
+                </CardFragment>
+                <input type={"range"}
+                       min={0}
+                       max={10}
+                       defaultValue={4}
+                       onChange={onSliderChange}
+                       step={0.1}/>
+                <canvas style={{display: "none"}}
+                        ref={canvas}
+                        height={500}
+                        width={500}/>
+                <button onClick={onDownloadClick}>
+                    Download
+                </button>
+            </section>
             <div>{n}</div>
-            <canvas ref={extraCanvas} height={1000} width={1000}/>
         </div>
     );
 }

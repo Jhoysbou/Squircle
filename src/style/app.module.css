@@ -1,0 +1,37 @@
+.app {
+    display: flex;
+    flex-direction: row;
+}
+
+.preview {
+    margin: 70px;
+}
+
+.preview > div {
+    font-size: 50px;
+    white-space: nowrap;
+    width: min-content;
+    margin: 0 auto 40px;
+
+}
+
+.preview > canvas {
+    height: 50vw;
+    width: 50vw;
+    border: aquamarine 1px solid;
+}
+
+.controls {
+    margin-top: 20vh;
+}
+.file_input_label {
+    height: 30px;
+    width: 280px;
+    border: none;
+    background-color: #86CDDD;
+
+}
+
+.file_input {
+    display: none;
+}
