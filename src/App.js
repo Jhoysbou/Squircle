@@ -4,6 +4,7 @@ import s from './style/app.module.css';
 import CardFragment from "./fragments/CardFragment";
 
 function App(props) {
+    const [imgName, setImgName] = useState("example.png")
     const [img, setImg] = useState();
     const [n, setN] = useState(4);
     const canvas = createRef();
@@ -12,6 +13,7 @@ function App(props) {
 
     const onFileChange = e => {
         const imgFile = e.target.files[0];
+        setImgName(imgFile.name);
         let image = new Image();
         image.src = URL.createObjectURL(imgFile);
         setImg(image);
@@ -49,15 +51,18 @@ function App(props) {
             </section>
             <section className={s.controls}>
                 <CardFragment>
-                    <div>Choose a pic</div>
-                    <div>It is better to choose a bigger picture to save quality</div>
+                    <div className={s.aligned_text}>
+                        <div className={s.card_title}>Choose a pic</div>
+                        <div className={s.card_text}>It is better to choose a bigger picture to save quality</div>
+                    </div>
                     <label className={s.file_input_label}>
                         <input className={s.file_input} type={"file"}
                                accept="image/*"
                                onChange={onFileChange}/>
-                               <div>Upload photo</div>
-                    </label>
 
+                        <div>Upload photo</div>
+                    </label>
+                    <div className={`${s.file_name} ${s.aligned_text}`}>{imgName}</div>
                 </CardFragment>
                 <input type={"range"}
                        min={0}
