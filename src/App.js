@@ -1,13 +1,13 @@
 import React, {createRef, useEffect, useState} from 'react';
-import './App.css';
+import Service from "./service/Service";
 
 
 function App(props) {
     const [img, setImg] = useState();
     const [n, setN] = useState(4);
     const canvas = createRef();
-    const canvas1 = createRef();
-    const pica = require('pica')();
+    const extraCanvas = createRef();
+    const service = new Service(canvas, extraCanvas)
 
     const onFileChange = e => {
         const imgFile = e.target.files[0];
@@ -25,65 +25,17 @@ function App(props) {
 
         if (img !== undefined) {
             if (img.complete) {
-                processImage(ctx);
+                service.processImage(ctx, img, n);
             } else {
-                img.onload = () => processImage(ctx);
+                img.onload = () => service.processImage(ctx, img, n);
             }
-
         }
-
     });
-
-    const processImage = (ctx) => {
-        canvas.current.width = img.width;
-        canvas.current.height = img.height;
-
-        ctx.drawImage(img, 0, 0, img.width, img.height,     // source rectangle
-            0, 0, canvas.current.width, canvas.current.height);
-
-        let imgData = ctx.getImageData(0, 0, canvas.current.width, canvas.current.height);
-        let data = imgData.data;
-
-        const a = canvas.current.width / 2;
-        const b = canvas.current.height / 2;
-
-        const center = {
-            x: a,
-            y: b
-        };
-
-        let j = 0;
-        for (let i = 0; i < data.length; i += 4) {
-            let x = i / 4 - center.x - j * canvas.current.width;
-            let y = center.y - j;
-
-            if (!isContain(x, y, a, b, n)) {
-                imgData.data[i + 3] = 0;
-            }
-
-            if (i !== 0 && i / 4 % canvas.current.width === 0) {
-                j++;
-            }
-        }
-
-        ctx.putImageData(imgData, 0, 0);
-
-        pica.resize(canvas.current, canvas1.current, {
-            alpha: true,
-            unsharpAmount: 0,
-            unsharpRadius: 0.3,
-            unsharpThreshold: 0
-        });
-    };
-
-    const isContain = (x, y, a, b, n) => {
-        return Math.pow(Math.abs(x / a), n) + Math.pow(Math.abs(y / b), n) <= 1;
-    };
 
     const onDownloadClick = () => {
         let link = document.createElement('a');
         link.download = 'Squircle.png';
-        link.href = canvas1.current.toDataURL()
+        link.href = extraCanvas.current.toDataURL()
         link.click();
     };
 
@@ -96,6 +48,7 @@ function App(props) {
             <input type={"range"}
                    min={0}
                    max={10}
+                   defaultValue={4}
                    onChange={onSliderChange}
                    step={0.1}/>
             <canvas style={{display: "none"}}
@@ -105,7 +58,8 @@ function App(props) {
             <button onClick={onDownloadClick}>
                 Download
             </button>
-            <canvas ref={canvas1} height={150} width={150}/>
+            <div>{n}</div>
+            <canvas ref={extraCanvas} height={1000} width={1000}/>
         </div>
     );
 }
