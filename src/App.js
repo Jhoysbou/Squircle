@@ -47,10 +47,10 @@ function App(props) {
         <div className={s.app}>
             <section className={s.preview}>
                 <div>This is your <span>squircle</span>!</div>
-                <canvas ref={extraCanvas} height={1000} width={1000}/>
+                <canvas ref={extraCanvas}/>
             </section>
             <section className={s.controls}>
-                <CardFragment>
+                <CardFragment number={"ONE"}>
                     <div className={s.aligned_text}>
                         <div className={s.card_title}>Choose a pic</div>
                         <div className={s.card_text}>It is better to choose a bigger picture to save quality</div>
@@ -64,19 +64,39 @@ function App(props) {
                     </label>
                     <div className={`${s.file_name} ${s.aligned_text}`}>{imgName}</div>
                 </CardFragment>
-                <input type={"range"}
-                       min={0}
-                       max={10}
-                       defaultValue={4}
-                       onChange={onSliderChange}
-                       step={0.1}/>
+                <CardFragment number={"TWO"}>
+                    <div className={s.aligned_text}>
+                        <div className={s.card_title}>Select the parameter</div>
+                        <div className={s.card_text}>Select the rounding option by increasing or decreasing the number
+                        </div>
+                    </div>
+                    <input className={s.range_input}
+                           type={"range"}
+                           min={0}
+                           max={10}
+                           defaultValue={4}
+                           onChange={onSliderChange}
+                           step={0.1}/>
+                </CardFragment>
+                <CardFragment number={"THREE"}>
+                    <div className={s.aligned_text}>
+                        <div className={s.card_title}>Download a pic</div>
+                        <div className={s.card_text}>Size</div>
+                    </div>
+                    <div className={s.size_inputs}>
+                        <input type={"number"} min={0}/>
+                        x
+                        <input type={"number"} min={0}/>
+                    </div>
+                    <button className={s.button}
+                            onClick={onDownloadClick}>
+                        <div>Download</div>
+                    </button>
+                </CardFragment>
                 <canvas style={{display: "none"}}
                         ref={canvas}
-                        height={500}
-                        width={500}/>
-                <button onClick={onDownloadClick}>
-                    Download
-                </button>
+                        height={1000}
+                        width={1000}/>
             </section>
             <div>{n}</div>
         </div>
