@@ -98,7 +98,7 @@ function App(props) {
                         height={1000}
                         width={1000}/>
             </section>
-            <div>{n}</div>
+            {/*<div>{n}</div>*/}
         </div>
     );
 }
